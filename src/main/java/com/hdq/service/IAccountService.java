@@ -2,12 +2,14 @@ package com.hdq.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.hdq.entity.Account;
 import com.hdq.form.account.CreateAccountForm;
 import com.hdq.form.account.UppdateAccountForm;
 
 
-public interface IAccountService {
+public interface IAccountService extends UserDetailsService{
 
 	public List<Account> getAllAccount();
 

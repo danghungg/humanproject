@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,8 +34,8 @@ public class AccountService implements IAccountService {
 
 	@Override
 	public Account getAccountByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return repository.findByUserName(name);
 	}
 
 	@Override
@@ -71,6 +75,21 @@ public class AccountService implements IAccountService {
 	public void deleteAccountByID(int id) {
 		repository.deleteById(id);
 
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Account account = repository.findByUserName(username);
+
+		if (account == null) {
+			throw new UsernameNotFoundException(username);
+		}
+		
+		return new User(
+				account.getUserName(), 
+				account.getPassWord(), 
+				AuthorityUtils.createAuthorityList(account.getRole().toString()));
+		
 	}
 
 }

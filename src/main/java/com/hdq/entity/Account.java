@@ -29,6 +29,12 @@ public class Account implements Serializable {
 
 	@Column(name = "`name`", length = 100, nullable = false)
 	private String name;
+	
+	@Column(name = "userName",length = 50,nullable = false,unique = true)
+	private String userName;
+	
+	@Column(name = "`password`",length = 10,nullable = false)
+	private String passWord;
 
 	@Column(name = "sex", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -43,6 +49,9 @@ public class Account implements Serializable {
 	@Column(name = "expYears", nullable = false)
 	private short expYears;
 
+	@Column(name="`role`")
+	@Enumerated(EnumType.STRING)
+	private Role role;
 	@ManyToOne()
 	@JoinColumn(name = "departmentId",referencedColumnName = "id" )
 	private Department departmentid;
